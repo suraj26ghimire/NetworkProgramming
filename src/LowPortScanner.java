@@ -1,31 +1,26 @@
 import java.net.Socket;
-import java.util.logging.Logger;
 
 public class LowPortScanner {
 
-    private static  Logger log =
-            Logger.getLogger("request");
-
     public static void main(String[] args) {
+        String host = "127.0.0.1"; // Target IP (localhost)
+        int startPort = 20;
+        int endPort = 7000;        // Low ports range
 
-        String host = "localhost";   // Target host
-        int startPort = 1;
-        int endPort = 7000;
-
-        log.info("Scanning low ports on host: " + host);
-        log.info("-------------------------------------");
+        System.out.println("Scanning ports on " + host + "...\n");
 
         for (int port = startPort; port <= endPort; port++) {
             try {
+                // Try to connect to the port
                 Socket socket = new Socket(host, port);
-                log.info("Port " + port + " is OPEN");
+                System.out.println("Port " + port + " is OPEN");
                 socket.close();
             } catch (Exception e) {
-                // Port is CLOSED or FILTERED (ignored)
+                // Port is closed or not reachable
+                // (We do nothing to keep output clean)
             }
         }
 
-        log.info("-------------------------------------");
-        log.info("Port scanning completed.");
+        System.out.println("\nScan complete.");
     }
 }
